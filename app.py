@@ -10,16 +10,7 @@ app.secret_key = "any random string"
 
 @app.route("/", methods=("GET", "POST"))
 def index():
-    if request.method == "POST":
-        form_input = request.form["animal"]
-        joey3 = Middleware.Joey3()
-        joey3.prompt = form_input
-        response = joey3.talk()
-
-        #return redirect(url_for("index", result=response.choices[0].text))
-
-    result = request.args.get("result")
-    return render_template("index.html", result=result)
+    return render_template("index.html", result="")
 
 @app.route("/api", methods=(["GET"]))
 def api():
