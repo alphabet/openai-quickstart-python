@@ -1,7 +1,11 @@
-from flask import Flask, redirect, render_template, request, url_for, jsonify
+from flask import Flask, session, redirect, render_template, request, url_for, jsonify
+# from flask_session import Session
 from models import Middleware
 
 app = Flask(__name__)
+app.secret_key = "any random string"
+# Check Configuration section for more details
+# Session(app)
 
 
 @app.route("/", methods=("GET", "POST"))
@@ -13,17 +17,20 @@ def index():
         response = joey3.talk()
 
         #return redirect(url_for("index", result=response.choices[0].text))
-        return redirect(url_for("index", result=response))
 
     result = request.args.get("result")
     return render_template("index.html", result=result)
 
 @app.route("/api", methods=(["GET"]))
 def api():
-    form_input = request.form["animal"]
-    joey3 = Middleware.Joey3({'prompt': form_input})
+    if not "talks" in session: session["talks"]=0
+    question = request.args.get("question")
+    joey3 = Middleware.Joey3(prompt = question)
+    joey3.talks = session["talks"]
     response = joey3.talk()
-    return jsonify({'joey3': response})
+    session["talks"] += 1 
+    
+    return jsonify({'joey3': response, 'talks': joey3.talks})
   
 
 

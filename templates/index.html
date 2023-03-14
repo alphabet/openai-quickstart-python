@@ -10,10 +10,11 @@
 
 <body>
   <img src="{{ url_for('static', filename='dog.png') }}" class="icon" />
-  <h3>Name my pet</h3>
-  <form action="/" method="post">
-    <input type="text" name="animal" placeholder="Enter an animal" required />
-    <input type="submit" value="Generate names" />
+  <h2>Q and A</h2>
+  <h3>Ask me about Upkept</h3>
+  <form action="/api" method="get">
+    <input type="text" name="question" placeholder="What is it?" required />
+    <input type="submit" value="Generate an answer" />
   </form>
   {% if result %}
   <div class="result">{{ result }}</div>

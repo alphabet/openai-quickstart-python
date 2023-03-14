@@ -9,12 +9,13 @@ if not (os.getenv("ENVIRONMENT")):
 
 class Joey3:
     prompt = "Q: Greetings my friend!"
+    talks = 0
 
     def __init__(self, **kwargs):
         openai.api_key = os.getenv("OPENAI_API_KEY")
         engine = inflect.engine()
-        self.prompt = kwargs.get('prompt')
-        self.__talks = 0
+        self.prompt = kwargs.get('prompt') or self.prompt
+        self.talks = kwargs.get("talks") or self.talks
         self.__limit = 9 # max number of interactions
         self.__first_interaction = "Hi I'm Joey, an AI chatbot who knows a lot about the Upkept App and not much else. " \
                                    "What can I do for you?"
@@ -25,11 +26,11 @@ class Joey3:
  #       self.talk()
 
     def talk(self):
-        self.__talks += 1
-        print("talks: ", self.__talks)
+        self.talks += 1
+        print("talks: ", self.talks)
         print("prompt: ", self.prompt)
 
-        if(self.__talks == self.__limit):
+        if(self.talks == self.__limit):
             return('\nBye! Hope you have a great day! For more answers please email us at upkept@cr.consumer.org')
 
         question = self.prompt or "Hi"
@@ -52,6 +53,6 @@ class Joey3:
 
         self.prompt = "Q: "
 
-        if(self.__talks == self.__limit-1): return (f"\n{self.__penultimate}")
+        if(self.talks == self.__limit-1): return (f"\n{self.__penultimate}")
         return ai['choices'][0]['text'].strip()
 
