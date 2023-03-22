@@ -6,17 +6,62 @@
     href="{{ url_for('static', filename='dog.png') }}"
   />
   <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+
 </head>
 
 <body>
   <img src="{{ url_for('static', filename='dog.png') }}" class="icon" />
   <h2>Q and A</h2>
   <h3>Ask me about Upkept</h3>
-  <form action="/api" method="get">
+  <script>
+    const url="/api" 
+    const method="GET"
+    const getAnswer = (e) => {
+    const question = e.parentElement.question.value || null;
+
+
+    if(question) {
+      fetch(url + '?question='.concat(question), 
+      {
+        "headers": { "accept": "application/json"  },
+        "referrerPolicy": "strict-origin-when-cross-origin",
+        "body": null,
+        "method": method,
+        "mode": "cors",
+        "credentials": "include"
+      }).then((response) => response.json())
+        .then((data) => {
+           document.getElementById('robot').innerHTML = data.joey3;
+
+           document.getElementById('question').innerHTML = data.question;
+           document.getElementById('joey3').innerHTML = 'joey #3 says :' + data.joey3;
+           document.getElementById('joey4').innerHTML = 'joey #4 says : ' + data.joey4;
+
+           document.getElementById('talks_counter').innerHTML = data.talks
+             });
+      }
+    }
+  </script>
+  <form>
     <input type="text" name="question" placeholder="i.e., What is it?" required />
-    <input type="submit" value="Generate an answer" />
+    <input type="button" value="Generate an answer" onclick="getAnswer(this);void(0);" />
   </form>
-  {% if result %}
-  <div class="result">{{ result }}</div>
-  {% endif %}
+
+  <div id="question">
+  </div>
+
+  <div id="robot" style="display:none;">    
+  </div>
+
+<div class="moreRobots">
+  <div id="joey3"></div>
+    <br/>
+  <div id="joey4"></div>
+</div>
+
+ <div id="talks_counter"></div>
+
+  <script>
+        document.onLoad = getAnswer(document.getElementsByTagName('form')[0].firstChild);
+  </script>
 </body>
