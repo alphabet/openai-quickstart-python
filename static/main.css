@@ -36,10 +36,10 @@ h3 {
   color: #202123;
   margin: 16px 0 40px;
 }
-form {
+.formdiv {
   display: flex;
   flex-direction: column;
-  width: 320px;
+  width: 355px;
 }
 input[type="text"] {
   padding: 12px 16px;

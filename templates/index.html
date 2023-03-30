@@ -17,7 +17,7 @@
     const url="/api" 
     const method="GET"
     const getAnswer = (e) => {
-    const question = e.parentElement.question.value || null;
+    const question = document.getElementById('question').value || null;
 
 
     if(question) {
@@ -42,9 +42,15 @@
       }
     }
   </script>
-  <form>
-    <input type="text" name="question" placeholder="i.e., What is it?" required />
-    <input type="button" value="Generate an answer" onclick="getAnswer(this);void(0);" />
+  <div class="formdiv">
+    <input type="text" name="question" placeholder="i.e., What is it?" required 
+    id="question"
+    onkeypress="(e) => { if (e.keyCode === 13) { document.getElementById('submitbutton').focus() } }"
+
+    />
+    <input id="submitbutton" 
+    type="button" value="Answer my question" 
+    onclick="getAnswer();void(0);" />
   </form>
 
   <div id="question">
@@ -62,6 +68,6 @@
  <div id="talks_counter"></div>
 
   <script>
-        document.onLoad = getAnswer(document.getElementsByTagName('form')[0].firstChild);
+        document.onLoad = getAnswer();
   </script>
 </body>
